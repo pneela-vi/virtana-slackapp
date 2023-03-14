@@ -1,0 +1,4 @@
+com/virtana/slackapp/SlackApp.class
+com/virtana/slackapp/service/CommandHandler.class
+com/virtana/slackapp/service/CommandHandlerImpl.class
+com/virtana/slackapp/controller/SlackCommandAPI.class
