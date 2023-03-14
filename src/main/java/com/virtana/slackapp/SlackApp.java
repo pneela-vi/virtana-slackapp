@@ -16,7 +16,7 @@ public class SlackApp {
       //  SLACK_SIGNING_SECRET=aa5fe565b7cadc9e4d242c02fe76cf4c
         App app = new App();
 
-        app.command("/virtana", (req, ctx) -> {
+        app.command("/virtana-platform", (req, ctx) -> {
             String commandParams = req.getPayload().getText();
             CommandHandlerImpl chl = new CommandHandlerImpl();
             String response;
