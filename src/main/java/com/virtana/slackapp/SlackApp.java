@@ -26,7 +26,7 @@ public class SlackApp {
 
         App app = new App();
 
-        app.command("/virtana", (req, ctx) -> {
+        app.command("/virtana-platform", (req, ctx) -> {
             String commandParams = req.getPayload().getText();
             SlashCommandResponse response = new SlashCommandResponse();
             switch (commandParams){
