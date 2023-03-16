@@ -41,7 +41,12 @@ public class IPMBlockBuilder {
             responseList.add(new ResponseData(appName,dataCenter,region,url));
             JsonArray maxSev = element.getAsJsonObject().get("maxsevperhour").getAsJsonArray();
             List<JsonElement> sortedList =maxSev.asList();
-            List<JsonElement> sublist = sortedList.subList(11,maxSev.asList().size());
+            List<JsonElement> sublist;
+            if(sortedList.size()>11){
+                sublist = sortedList.subList(11,maxSev.asList().size());
+            }else {
+                sublist = sortedList;
+            }
             int count =0;
             DataSets greenSet = new DataSets();
             DataSets orangeSet = new DataSets();
