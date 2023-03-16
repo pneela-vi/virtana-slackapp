@@ -64,7 +64,7 @@ public class SlackApp {
         CommandHandlerImpl chl = new CommandHandlerImpl();
         IPMBlockBuilder ipmBlockBuilder = new IPMBlockBuilder();
         Response response;
-        String ipmResponse;
+        List<LayoutBlock> ipmResponse;
         try {
             response = Response.ok(chl.ipmDashboard());
             ipmResponse = ipmBlockBuilder.getIPMDataAsBlockMesage(response.getBody());
@@ -74,7 +74,7 @@ public class SlackApp {
 
         SlashCommandResponse cmdResp = new SlashCommandResponse();
         cmdResp.setResponseType("ephemeral");
-        cmdResp.setText(ipmResponse);
+        cmdResp.setBlocks(ipmResponse);
         return cmdResp;
     }
 

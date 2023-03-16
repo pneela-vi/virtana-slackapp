@@ -1,19 +1,21 @@
 package com.virtana.slackapp.graph.model;
 
+import java.util.Map;
+
 public class Options {
-    String legend;
+    Map<String,Boolean> legend;
     Scales scales;
 
-    public Options(String legend, Scales scales) {
+    public Options(Map<String,Boolean> legend, Scales scales) {
         this.legend = legend;
         this.scales = scales;
     }
 
-    public String getLegend() {
+    public Map<String,Boolean> getLegend() {
         return legend;
     }
 
-    public void setLegend(String legend) {
+    public void setLegend(Map<String,Boolean> legend) {
         this.legend = legend;
     }
 
