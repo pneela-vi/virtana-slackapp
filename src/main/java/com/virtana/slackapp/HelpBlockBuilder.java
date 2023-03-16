@@ -44,9 +44,9 @@ public class HelpBlockBuilder {
                 .build();
         blocks.add(ipmBlock);
 
-        // Section block for the '/virtana-platform show usersbyorg [limit]' command
+        // Section block for the '/virtana-platform usersbyorg [limit]' command
         TextObject userOrgText = MarkdownTextObject.builder()
-                .text("`/virtana-platform show usersbyorg [limit]` - List users by org using limit options")
+                .text("`/virtana-platform usersbyorg [limit]` - List users by org using limit options")
                 .build();
         SectionBlock userOrgBlock = SectionBlock.builder()
                 .text(userOrgText)
