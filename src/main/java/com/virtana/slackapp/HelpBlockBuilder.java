@@ -17,7 +17,7 @@ public class HelpBlockBuilder {
 
     public List<LayoutBlock> handleHelpCommand(SlashCommandRequest req, SlashCommandContext ctx) {
         // Build the message blocks
-        List<LayoutBlock> blocks = new ArrayList();
+        List<LayoutBlock> blocks = new ArrayList<>();
 
         // Section block for the help message
         TextObject sectionText = MarkdownTextObject.builder()
