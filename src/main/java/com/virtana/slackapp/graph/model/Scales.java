@@ -1,27 +1,30 @@
 package com.virtana.slackapp.graph.model;
 
-public class Scales {
-    String[] xAxes;
-    String[] yAxes;
+import java.util.List;
+import java.util.Map;
 
-    public Scales(String[] xAxes, String[] yAxes) {
+public class Scales {
+    List<Map<String,ScaleLabel>> xAxes;
+    List<Map<String,Object>> yAxes;
+
+    public Scales(List<Map<String,ScaleLabel>> xAxes, List<Map<String,Object>> yAxes) {
         this.xAxes = xAxes;
         this.yAxes = yAxes;
     }
 
-    public String[] getxAxes() {
+    public List<Map<String,ScaleLabel>> getxAxes() {
         return xAxes;
     }
 
-    public void setxAxes(String[] xAxes) {
+    public void setxAxes(List<Map<String,ScaleLabel>> xAxes) {
         this.xAxes = xAxes;
     }
 
-    public String[] getyAxes() {
+    public List<Map<String,Object>> getyAxes() {
         return yAxes;
     }
 
-    public void setyAxes(String[] yAxes) {
+    public void setyAxes(List<Map<String,Object>> yAxes) {
         this.yAxes = yAxes;
     }
 }

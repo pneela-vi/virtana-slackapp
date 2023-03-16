@@ -14,13 +14,11 @@ import com.slack.api.model.block.composition.TextObject;
 import com.virtana.slackapp.graph.model.*;
 import io.quickchart.QuickChart;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class IPMBlockBuilder {
 
-    public  String getIPMDataAsBlockMesage(String response){
+    public List<LayoutBlock> getIPMDataAsBlockMesage(String response){
 
         GraphData graphData = new GraphData();
         graphData.setType("line");
@@ -108,14 +106,35 @@ public class IPMBlockBuilder {
         Gson gson = new Gson();
         data.setDatasets(dataSetsList);
         graphData.setData(data);
+
         ScaleLabel xscaleLabel=new ScaleLabel(true,"#ff","Hours","bold");
-        String xlable = gson.toJson(xscaleLabel);
-        ScaleLabel yscaleLabel=new ScaleLabel(true,"#ff","Hours","bold");
-        String ylable = gson.toJson(yscaleLabel);
-        ylable = ylable.replaceAll("'\'","");
-        Scales scales = new Scales(new String[]{xlable},new String[]{ylable});
-        Options options = new Options("{display:false}",scales);
-        //graphData.setOptions(options);
+        Map<String,ScaleLabel> xscalMap = new HashMap<>();
+        xscalMap.put("scaleLabel",xscaleLabel);
+        List<Map<String,ScaleLabel>> xscaList=new ArrayList<>();
+        xscaList.add(xscalMap);
+        ScaleLabel yscaleLabel=new ScaleLabel(true,"#ff","","bold");
+        Map<String,Object> yscalMap = new HashMap<>();
+        yscalMap.put("scaleLabel",yscaleLabel);
+        Map<String,String> ticksData = new HashMap<>();
+        StringBuffer str = new StringBuffer();
+        str.append("(val, index) => {");
+        str.append("if(index === 8)");
+        str.append("return 'Isilon on VMware';");
+        str.append("if(index === 6)");
+        str.append("return 'Linux only';");
+        str.append("if(index === 6)");
+        str.append("return 'SampleAppConfiguration'; }");
+        ticksData.put("min","0");
+        ticksData.put("max","50");
+        ticksData.put("callback",str.toString());
+        // yscalMap.put("ticks",ticksData);
+        List<Map<String,Object>> yscaList=new ArrayList<>();
+        yscaList.add(yscalMap);
+        Scales scales = new Scales(xscaList,yscaList);
+        Map<String,Boolean> map =new HashMap();
+        map.put("display",false);
+        Options options = new Options(map,scales);
+        graphData.setOptions(options);
 
         String json = gson.toJson(graphData);
         System.out.println("Graph Data ::"+ json);
@@ -167,17 +186,7 @@ public class IPMBlockBuilder {
                     .build());
         }
         message.add(ImageBlock.builder().imageUrl(chart.getShortUrl()).altText("Status").title(PlainTextObject.builder().text("Status ").build()).build());
-        // message.add(Option.builder().value().build());
 
-        String msg = gson.toJson(message);
-        msg = msg.replace("imageUrl","image_url").replace("altText","alt_text");
-        StringBuffer imageStr = new StringBuffer();
-        imageStr.append("{");
-        imageStr.append("blocks:");
-        imageStr.append(msg);
-        imageStr.append("}");
-        System.out.println("Msg :: "+imageStr.toString());
-
-        return imageStr.toString();
+        return message;
     }
 }
