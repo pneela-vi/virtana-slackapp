@@ -62,21 +62,19 @@ public class SlackApp {
 
     public static SlashCommandResponse ipmResponse(SlashCommandRequest req, SlashCommandContext ctx){
         CommandHandlerImpl chl = new CommandHandlerImpl();
+        IPMBlockBuilder ipmBlockBuilder = new IPMBlockBuilder();
         Response response;
+        String ipmResponse;
         try {
             response = Response.ok(chl.ipmDashboard());
-            JsonParser parser = new JsonParser();
-            JsonElement tradeElement = parser.parse(response.getBody());
-            tradeElement.getAsJsonArray().get(0).getAsJsonObject().get("appname").getAsString();
-
-            System.out.println(tradeElement.getAsJsonArray().get(0).getAsJsonObject().get("appname").getAsString());
+            ipmResponse = ipmBlockBuilder.getIPMDataAsBlockMesage(response.getBody());
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 
         SlashCommandResponse cmdResp = new SlashCommandResponse();
         cmdResp.setResponseType("ephemeral");
-        cmdResp.setText(response.getBody());
+        cmdResp.setText(ipmResponse);
         return cmdResp;
     }
 

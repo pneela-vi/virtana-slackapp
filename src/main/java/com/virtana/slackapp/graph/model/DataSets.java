@@ -3,9 +3,9 @@ package com.virtana.slackapp.graph.model;
 public class DataSets {
 
     String label;
-    int[] data;
+    String[] data;
 
-    String fill;
+    boolean fill;
     String borderColor;
 
     public String getLabel() {
@@ -16,19 +16,19 @@ public class DataSets {
         this.label = label;
     }
 
-    public int[] getData() {
+    public String[] getData() {
         return data;
     }
 
-    public void setData(int[] data) {
+    public void setData(String[] data) {
         this.data = data;
     }
 
-    public String getFill() {
+    public boolean getFill() {
         return fill;
     }
 
-    public void setFill(String fill) {
+    public void setFill(boolean fill) {
         this.fill = fill;
     }
 
