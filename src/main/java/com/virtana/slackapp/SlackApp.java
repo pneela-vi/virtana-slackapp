@@ -1,10 +1,7 @@
 package com.virtana.slackapp;
 
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.slack.api.app_backend.slash_commands.response.SlashCommandResponse;
 import com.slack.api.bolt.App;
@@ -30,10 +27,9 @@ public class SlackApp {
         App app = new App();
 
         app.command("/virtana-platform", (req, ctx) -> {
-            String commandParams = req.getPayload().getText();
-            System.out.printf("Command Text:%s", commandParams);
+            String[] commandParams = req.getPayload().getText().split(" ");
             SlashCommandResponse response = new SlashCommandResponse();
-            switch (commandParams){
+            switch (commandParams[0]){
                 case "ipm": {
                     response = ipmResponse(req, ctx);
                     break;
@@ -43,7 +39,8 @@ public class SlackApp {
                     break;
                 }
                 case "usersbyorg": {
-                    String limit = "10";
+
+                    String limit = commandParams[1]==""?"10":commandParams[1];
                     response = usersByOrgResponse(req, ctx, limit);
                     break;
                 }
@@ -93,13 +90,9 @@ public class SlackApp {
         Response response;
         try {
             response = Response.ok(chl.usersByOrg(limit));
-            JsonParser parser = new JsonParser();
-            JsonElement tradeElement = parser.parse(response.getBody());
-            //System.out.println(tradeElement.getAsJsonArray().get(0).getAsJsonObject().get("appname").getAsString());
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
-
         SlashCommandResponse cmdResp = new SlashCommandResponse();
         cmdResp.setResponseType("ephemeral");
         cmdResp.setText(response.getBody());

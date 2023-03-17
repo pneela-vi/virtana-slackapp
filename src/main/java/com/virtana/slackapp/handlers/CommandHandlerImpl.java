@@ -1,5 +1,9 @@
 package com.virtana.slackapp.handlers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.virtana.slackapp.utils.SlackUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -41,7 +45,15 @@ public class CommandHandlerImpl implements CommandHandler{
                 .build();
 
         HttpResponse<String> response = client.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body().toString();
+        String responseData = response.body().toString();
+        System.out.println(responseData);
+
+        JsonObject convertedObject = new Gson().fromJson(responseData,JsonObject.class);
+        JsonArray usersJsonArray = convertedObject.get("users").getAsJsonArray();
+        SlackUtils su = new SlackUtils();
+        String finalResponse = su.getTableResponseForUsers(usersJsonArray);
+
+        return finalResponse;
     }
 
     @Override
