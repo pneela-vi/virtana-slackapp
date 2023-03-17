@@ -3,15 +3,25 @@ package com.virtana.slackapp.graph.model;
 import java.util.List;
 
 public class Data {
-    String[] labels;
+    String[] xLabels;
+
+    String[] yLabels;
     List<DataSets> datasets;
 
-    public String[] getLabels() {
-        return labels;
+    public String[] getxLabels() {
+        return xLabels;
     }
 
-    public void setLabels(String[] labels) {
-        this.labels = labels;
+    public void setxLabels(String[] labels) {
+        this.xLabels = labels;
+    }
+
+    public String[] getyLabels() {
+        return yLabels;
+    }
+
+    public void setyLabels(String[] yLabels) {
+        this.yLabels = yLabels;
     }
 
     public List<DataSets> getDatasets() {
