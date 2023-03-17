@@ -39,13 +39,18 @@ public class SlackApp {
                     break;
                 }
                 case "users-by-org": {
-                    String limit = "10";
+                    String limit = commandParams[1]==""?"10":commandParams[1];
                     response = usersByOrgResponse(req, ctx, limit);
                     break;
                 }
                 case "idle-resources": {
-                    String limit = "10";
+                    String limit = commandParams[1]==""?"10":commandParams[1];
                     response = idleResourcesResponse(req, ctx, limit);
+                    break;
+                }
+                case "right-sizing": {
+                    String limit = commandParams[1]==""?"10":commandParams[1];
+                    response = rightSizingResponse(req, ctx, limit);
                     break;
                 }
                 default:
@@ -121,5 +126,36 @@ public class SlackApp {
         cmdResp.setResponseType("ephemeral");
         cmdResp.setText(output);
         return cmdResp;
+    }
+
+    public static SlashCommandResponse rightSizingResponse(SlashCommandRequest req, SlashCommandContext ctx, String limit){
+        //TODO
+//        CommandHandlerImpl chl = new CommandHandlerImpl();
+//        Response response;
+//        try {
+//            response = Response.ok(chl.idleResourcesDashboard());
+//            JsonParser parser = new JsonParser();
+//            JsonElement tradeElement = parser.parse(response.getBody());
+//            //System.out.println(tradeElement.getAsJsonArray().get(0).getAsJsonObject().get("appname").getAsString());
+//        } catch (InterruptedException | IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+////        SlackUtils slackUtils = new SlackUtils();
+////        JsonParser parser = new JsonParser();
+////        JsonElement tradeElement = parser.parse(response.getBody());
+////        JsonElement element = tradeElement.getAsJsonObject().get("analysis").getAsJsonObject().get("idleResources");
+////        JsonArray tradeArray = element.getAsJsonArray();
+////        String output =   slackUtils.getTableResponseForIdleResources(tradeArray);
+////        UsersByOrgBlockBuilder table = new UsersByOrgBlockBuilder();
+////        List<LayoutBlock> blocks ;
+////        blocks = table.buildTabularBlock();
+//        UsersByOrgBlockBuilder table = new UsersByOrgBlockBuilder();
+//
+//        SlashCommandResponse cmdResp = new SlashCommandResponse();
+//        cmdResp.setResponseType("ephemeral");
+//        cmdResp.setBlocks(blocks);
+//        return cmdResp;
+        return null;
     }
 }
