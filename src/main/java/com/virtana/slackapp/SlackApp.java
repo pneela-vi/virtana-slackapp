@@ -20,45 +20,55 @@ import java.util.List;
 
 @Component
 public class SlackApp {
+    CommandHandlerImpl chl = new CommandHandlerImpl();
     public static void main(String[] args) throws Exception {
 
         // App expects env variables (SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET)
-
         App app = new App();
 
         app.command("/virtana-platform", (req, ctx) -> {
-            String[] commandParams = req.getPayload().getText().split(" ");
-            SlashCommandResponse response = new SlashCommandResponse();
-            switch (commandParams[0]){
-                case "ipm": {
-                    response = ipmResponse(req, ctx);
-                    break;
+            if(null == req.getPayload().getText()){
+                SlashCommandResponse response = helpResponse(req, ctx);
+                ctx.respond(response);
+                return ctx.ack();
+            }else{
+                String[] commandParams = req.getPayload().getText().split(" ");
+                String limit;
+                try{
+                    limit = String.valueOf(commandParams.length > 1?Integer.parseInt(commandParams[1]):10);
+                }catch (NumberFormatException ex){
+                   limit = "10";
                 }
-                case "help": {
-                    response = helpResponse(req, ctx);
-                    break;
+                SlashCommandResponse response = new SlashCommandResponse();
+                switch (commandParams[0]){
+                    case "ipm": {
+                        response = ipmResponse(req, ctx);
+                        break;
+                    }
+                    case "help": {
+                        response = helpResponse(req, ctx);
+                        break;
+                    }
+                    case "users-by-org": {
+                        response = usersByOrgResponse(req, ctx, limit);
+                        break;
+                    }
+                    case "idle-resources": {
+                        response = idleResourcesResponse(req, ctx, limit);
+                        break;
+                    }
+                    case "right-sizing": {
+                        response = rightSizingResponse(req, ctx, limit);
+                        break;
+                    }
+                    default:
+                        response.setText("Command not supported. Please try \"virtana-platform help\" for available commands.");
                 }
-                case "users-by-org": {
-                    String limit = commandParams[1]==""?"10":commandParams[1];
-                    response = usersByOrgResponse(req, ctx, limit);
-                    break;
-                }
-                case "idle-resources": {
-                    String limit = commandParams[1]==""?"10":commandParams[1];
-                    response = idleResourcesResponse(req, ctx, limit);
-                    break;
-                }
-                case "right-sizing": {
-                    String limit = commandParams[1]==""?"10":commandParams[1];
-                    response = rightSizingResponse(req, ctx, limit);
-                    break;
-                }
-                default:
-                    response.setText("Command not supported. Please try \"virtana-platform help\" for available commands.");
-            }
-            ctx.respond(response);
+                ctx.respond(response);
 
-            return ctx.ack();
+                return ctx.ack();
+
+            }
         });
 
         SlackAppServer server = new SlackAppServer(app);
@@ -130,32 +140,24 @@ public class SlackApp {
 
     public static SlashCommandResponse rightSizingResponse(SlashCommandRequest req, SlashCommandContext ctx, String limit){
         //TODO
-//        CommandHandlerImpl chl = new CommandHandlerImpl();
-//        Response response;
-//        try {
-//            response = Response.ok(chl.idleResourcesDashboard());
-//            JsonParser parser = new JsonParser();
-//            JsonElement tradeElement = parser.parse(response.getBody());
-//            //System.out.println(tradeElement.getAsJsonArray().get(0).getAsJsonObject().get("appname").getAsString());
-//        } catch (InterruptedException | IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-////        SlackUtils slackUtils = new SlackUtils();
-////        JsonParser parser = new JsonParser();
-////        JsonElement tradeElement = parser.parse(response.getBody());
-////        JsonElement element = tradeElement.getAsJsonObject().get("analysis").getAsJsonObject().get("idleResources");
-////        JsonArray tradeArray = element.getAsJsonArray();
-////        String output =   slackUtils.getTableResponseForIdleResources(tradeArray);
-////        UsersByOrgBlockBuilder table = new UsersByOrgBlockBuilder();
-////        List<LayoutBlock> blocks ;
-////        blocks = table.buildTabularBlock();
-//        UsersByOrgBlockBuilder table = new UsersByOrgBlockBuilder();
-//
-//        SlashCommandResponse cmdResp = new SlashCommandResponse();
-//        cmdResp.setResponseType("ephemeral");
-//        cmdResp.setBlocks(blocks);
-//        return cmdResp;
-        return null;
+        CommandHandlerImpl chl = new CommandHandlerImpl();
+        Response response;
+        try {
+            response = Response.ok(chl.rightSizingDashboard());
+            JsonParser parser = new JsonParser();
+            JsonElement tradeElement = parser.parse(response.getBody());
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        SlackUtils slackUtils = new SlackUtils();
+        JsonParser parser = new JsonParser();
+        JsonElement tradeElement = parser.parse(response.getBody());
+        JsonElement element = tradeElement.getAsJsonObject().get("analysis").getAsJsonObject().get("rightSizing");
+        JsonArray tradeArray = element.getAsJsonArray();
+        String output =   slackUtils.getTableResponseForRightSizing(tradeArray);
+        SlashCommandResponse cmdResp = new SlashCommandResponse();
+        cmdResp.setResponseType("ephemeral");
+        cmdResp.setText(output);
+        return cmdResp;
     }
 }

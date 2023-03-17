@@ -165,6 +165,40 @@ public class SlackUtils {
 
         return getTableResponse(map);
     }
+
+    public String getTableResponseForRightSizing(JsonArray rightSizingData) {
+
+        List<String> headers = new ArrayList<>();
+        List<List> rows = new ArrayList<>();
+
+        // headers.add("SNo.");
+        headers.add("Entity");
+        headers.add("Name");
+        headers.add("Cloud");
+        headers.add("Current Type");
+        headers.add("Proposed Type");
+
+        for (int i = 0; i < 10; i++) {
+
+            JsonObject sizing =  rightSizingData.get(i).getAsJsonObject();
+
+            List rightSizing = new ArrayList<>();
+            rightSizing.add(sizing.get("elementType")!=null?sizing.get("elementType").getAsString():"NA");		// Entity
+            rightSizing.add(sizing.get("name")!=null?sizing.get("name").getAsString():"NA");		            // Name
+            rightSizing.add(sizing.get("cloudProvider")!=null?sizing.get("cloudProvider").getAsString():"NA");	// Cloud
+
+            rightSizing.add(sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("instanceType").getAsString():"NA");	// current Instance Type
+            rightSizing.add(sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("instanceType").getAsString():"NA");	// Proposed Instance Type
+            rows.add(rightSizing);
+        }
+
+        Map map = new HashMap<>();
+        map.put("headers", headers);
+        map.put("rows", rows);
+
+        return getTableResponse(map);
+    }
+
     private String getTableResponse(Map tableData) {
 
         Map<Integer, Integer> maxLenghthOfColumns = new HashMap<>();
@@ -199,7 +233,8 @@ public class SlackUtils {
         for (int i = 0; i < headers.size(); i++) {
 
             String header = headers.get(i);
-            String hdr = getSpaceAppendedText(header, maxLenghthOfColumns.get(i));
+            //String hdr = getSpaceAppendedText(header, maxLenghthOfColumns.get(i));
+            String hdr = getSpaceAppendedTextForHeader(header, maxLenghthOfColumns.get(i));
             response_headers.add(hdr);
         }
         for (int i = 0; i < rows.size(); i++) {
@@ -321,6 +356,22 @@ public class SlackUtils {
         int requiredSpaces = maxSizeOfCell - text.length();
         for (int i = 0; i < requiredSpaces; i++) {
             responseText = responseText+SPACE;
+        }
+        return responseText;
+    }
+
+    private String getSpaceAppendedTextForHeader(String headerText, Integer maxSizeOfCell) {
+
+        String responseText = headerText;
+        int requiredSpaces = maxSizeOfCell - headerText.length();
+
+        for (int i = 0; i < requiredSpaces; i++) {
+
+            if(i %2 == 0) {
+                responseText = responseText+SPACE;
+            }else {
+                responseText = SPACE + responseText;
+            }
         }
         return responseText;
     }
