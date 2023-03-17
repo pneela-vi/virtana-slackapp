@@ -1,5 +1,4 @@
 //package com.virtana.slackapp;
-//
 //import com.slack.api.bolt.request.builtin.BlockActionRequest;
 //import com.slack.api.bolt.response.Response;
 //import com.slack.api.bolt.response.ResponseTypes;
@@ -20,27 +19,7 @@
 //public class TabularBlock {
 //    public Response buildTabularBlock(BlockActionRequest request) {
 //        String jsonData = "[{\"email\":\"baig.asadulla@virtana.com\",\"name\":\"Baig Asadulla\",\"roles\":[{\"friendlyName\":\"Virtana Developer\"}]},{\"email\":\"polina.tolstikova@virtana.com\",\"name\":\"Polina Tolstikova\",\"roles\":[{\"friendlyName\":\"Virtana Developer\"}]}]";
-//        List<User> users = Arrays.asList(GsonFactory.createSnakeCase().fromJson(jsonData, User[].class));
-//
-////        List<LayoutBlock> blocks = new ArrayList<>();
-////
-////        // Header Row
-////        List<String> headers = Arrays.asList("Email", "Name", "Roles");
-////        blocks.add(LayoutBlock.section(section -> section.text(
-////                BlockCompositions.markdownText("*" + String.join(" | ", headers) + "*"))));
-////
-////        // Rows
-////        users.forEach(user -> {
-////            List<String> values = Arrays.asList(user.getEmail(), user.getName(), user.getRoles().stream()
-////                    .map(role -> role.getFriendlyName())
-////                    .collect(Collectors.joining(", ")));
-////
-////            blocks.add(LayoutBlock.section(section -> section.text(
-////                    BlockCompositions.markdownText(String.join(" | ", values)))));
-////        });
-////
-////        View view = new View().type(View.Type.MODAL).callbackId("tabular-block");
-////        view.blocks(blocks);
+//      //  List<User> users = Arrays.asList(GsonFactory.createSnakeCase().fromJson(jsonData, User[].class));
 //        List<LayoutBlock> blocks = new ArrayList<>();
 //
 //// Add header section
@@ -65,29 +44,49 @@
 //                .build());
 //
 //// Add user rows
-//        for (User user : users) {
-//            String email = (String) user.get("email");
-//            String name = (String) user.get("name");
-//            List<Map<String, String>> roles = (List<Map<String, String>>) user.get("roles");
-//            String role = roles.get(0).get("friendlyName");
+////        for (User user : users) {
+////            String email = (String) user.get("email");
+////            String name = (String) user.get("name");
+////            List<Map<String, String>> roles = (List<Map<String, String>>) user.get("roles");
+////            String role = roles.get(0).get("friendlyName");
 //
 //            blocks.add(SectionBlock.builder()
 //                    .fields(Arrays.asList(
 //                            MarkdownTextObject.builder()
-//                                    .text(email + "\n")
+//                                    .text("Helen" + "\n")
 //                                    .build(),
 //                            MarkdownTextObject.builder()
-//                                    .text(name + "\n")
+//                                    .text("John" + "\n")
 //                                    .build(),
 //                            MarkdownTextObject.builder()
-//                                    .text(role + "\n")
+//                                    .text("Admin" + "\n")
 //                                    .build()))
 //                    .build());
-//        }
-//        return Response.builder()
-//                .responseType(ResponseTypes.inChannel)
-//                .blocks(blocks)
-//                .build();
+//      //  }
+////        List<LayoutBlock> blocks = new ArrayList<>();
+////
+////        // Header Row
+////        List<String> headers = Arrays.asList("Email", "Name", "Roles");
+////        blocks.add(LayoutBlock.section(section -> section.text(
+////                BlockCompositions.markdownText("*" + String.join(" | ", headers) + "*"))));
+////
+////        // Rows
+////        users.forEach(user -> {
+////            List<String> values = Arrays.asList(user.getEmail(), user.getName(), user.getRoles().stream()
+////                    .map(role -> role.getFriendlyName())
+////                    .collect(Collectors.joining(", ")));
+////
+////            blocks.add(LayoutBlock.section(section -> section.text(
+////                    BlockCompositions.markdownText(String.join(" | ", values)))));
+////        });
+////
+////        View view = new View().type(View.Type.MODAL).callbackId("tabular-block");
+////        view.blocks(blocks);
+////
+////        return Response.builder()
+////                .responseType(ResponseTypes.inChannel)
+////                .blocks(blocks)
+////                .build();
 //    }
 //
 //    static class User {
@@ -132,87 +131,3 @@
 //        }
 //    }
 //}
-//
-//import com.slack.api.bolt.request.builtin.BlockActionRequest;
-//import com.slack.api.bolt.request.builtin.SlashCommandRequest;
-//import com.slack.api.bolt.response.Response;
-//import com.slack.api.model.block.ContextBlock;
-//import com.slack.api.model.block.DividerBlock;
-//import com.slack.api.model.block.SectionBlock;
-//import com.slack.api.model.block.composition.PlainTextObject;
-//import com.slack.api.model.view.View;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class UsersByOrgBuilder {
-//    public Response usersByOrgBuilder(SlashCommandRequest req, ) {
-//        List<User> users = getUsersFromJson(); // Method to parse the JSON data into a List of User objects
-//
-//        List<SectionBlock> blocks = new ArrayList<>();
-//
-//        blocks.add(SectionBlock.builder()
-//                .text(PlainTextObject.builder()
-//                        .text("User Information")
-//                        .build())
-//                .build());
-//        blocks.add(DividerBlock.builder().build());
-//
-//        for (User user : users) {
-//            blocks.add(SectionBlock.builder()
-//                    .text(PlainTextObject.builder()
-//                            .text("*" + user.getName() + "*\nEmail: " + user.getEmail() + "\nRole: " + user.getRoles().get(0).getFriendlyName())
-//                            .build())
-//                    .build());
-//            blocks.add(DividerBlock.builder().build());
-//        }
-//
-//        View view = View.builder()
-//                .type("modal")
-//                .callbackId("user-info-modal")
-//                .title(PlainTextObject.builder().text("User Information").build())
-//                .blocks(blocks)
-//                .build();
-//
-//        return Response.builder()
-//                .responseAction("open_view")
-//                .view(view)
-//                .build();
-//    }
-//}
-//
-//class User {
-//    private String email;
-//    private String name;
-//    private List<Role> roles;
-//
-//    public User(String email, String name, List<Role> roles) {
-//        this.email = email;
-//        this.name = name;
-//        this.roles = roles;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public List<Role> getRoles() {
-//        return roles;
-//    }
-//}
-//
-//class Role {
-//    private String friendlyName;
-//
-//    public Role(String friendlyName) {
-//        this.friendlyName = friendlyName;
-//    }
-//
-//    public String getFriendlyName() {
-//        return friendlyName;
-//    }
-//}
-

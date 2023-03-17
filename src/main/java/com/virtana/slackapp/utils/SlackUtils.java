@@ -114,6 +114,57 @@ public class SlackUtils {
 
         return getTableResponse(map);
     }
+
+    public String getTableResponseForIdleResources(JsonArray idle_resources) {
+
+        List<String> headers = new ArrayList<>();
+        List<List> rows = new ArrayList<>();
+
+       // headers.add("SNo.");
+        headers.add("Entity");
+        headers.add("Name");
+        headers.add("Cloud");
+        headers.add("IdleType");
+        headers.add("MonthlyCost");
+
+        //	JsonArray users_data = data.getAsJsonArray();
+
+        for (int i = 0; i < 10; i++) {
+
+            JsonObject user =  idle_resources.get(i).getAsJsonObject();
+
+//            JsonArray  user_roles = user.get("roles").getAsJsonArray();
+//            String user_roles_string = "";
+//            for (int j = 0; j < user_roles.size(); j++) {
+//
+//                JsonObject user_role = user_roles.get(j).getAsJsonObject();
+//
+//                user_roles_string = user_roles_string + user_role.get("friendlyName");
+//
+//                if(j != (user_roles.size()-1) ) {
+//                    user_roles_string = user_roles_string + ", ";
+//                }
+//            }
+
+            List user_record = new ArrayList<>();
+          //  user_record.add((i+1)); 															// SNo.
+            user_record.add(user.get("elementType")!=null?user.get("elementType").getAsString():"NA");		// Entity
+            user_record.add(user.get("elementName")!=null?user.get("elementName").getAsString():"NA");		// Name
+            user_record.add(user.get("cloudProvider")!=null?user.get("cloudProvider").getAsString():"NA");	// Cloud
+
+            user_record.add(user.get("attributes").getAsJsonObject().get("idleType")!=null?user.get("attributes").getAsJsonObject().get("idleType").getAsString():"NA");	// IdleType
+           // user_record.add(user_roles_string);													// IdleType
+            user_record.add(user.get("totalCost")!=null?user.get("totalCost").getAsString():"NA");		// MonthlyCost
+
+            rows.add(user_record);
+        }
+
+        Map map = new HashMap<>();
+        map.put("headers", headers);
+        map.put("rows", rows);
+
+        return getTableResponse(map);
+    }
     private String getTableResponse(Map tableData) {
 
         Map<Integer, Integer> maxLenghthOfColumns = new HashMap<>();

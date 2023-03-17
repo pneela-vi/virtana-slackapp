@@ -37,7 +37,7 @@ public class HelpBlockBuilder {
 
         // Section block for the '/virtana-platform show ipm event viewer' command
         TextObject ipmText = MarkdownTextObject.builder()
-                .text("`/virtana-platform show ipm event viewer `- Infrastructure Performance Management dashboard")
+                .text("`/virtana-platform ipm dashboard `- Infrastructure Performance Management dashboard")
                 .build();
         SectionBlock ipmBlock = SectionBlock.builder()
                 .text(ipmText)
@@ -46,7 +46,7 @@ public class HelpBlockBuilder {
 
         // Section block for the '/virtana-platform usersbyorg [limit]' command
         TextObject userOrgText = MarkdownTextObject.builder()
-                .text("`/virtana-platform usersbyorg [limit]` - List users by org using limit options")
+                .text("`/virtana-platform users-by-org [limit]` - List users by org using limit options")
                 .build();
         SectionBlock userOrgBlock = SectionBlock.builder()
                 .text(userOrgText)
@@ -55,7 +55,7 @@ public class HelpBlockBuilder {
 
         // Section block for the '/virtana-platform show idle resources [limit]' command
         TextObject idleText = MarkdownTextObject.builder()
-                .text("`/virtana-platform show idle resources [limit]` - List idle resources using limit options")
+                .text("`/virtana-platform idle-resources [limit]` - List idle resources using limit options")
                 .build();
         SectionBlock idleBlock = SectionBlock.builder()
                 .text(idleText)
@@ -64,7 +64,7 @@ public class HelpBlockBuilder {
 
         // Section block for the '/virtana-platform show right sizing policy' command
         TextObject policyText = MarkdownTextObject.builder()
-                .text("`/virtana-platform show right sizing policy` - List right sizing policy dashboard")
+                .text("`/virtana-platform right-sizing [limit]` - List right sizing with limit options")
                 .build();
         SectionBlock policyBlock = SectionBlock.builder()
                 .text(policyText)
