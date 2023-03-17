@@ -4,9 +4,11 @@ import java.util.Map;
 
 public class Options {
     Map<String,Boolean> legend;
+
+    Map<String,Map<String,String>> elements;
     Scales scales;
 
-    public Options(Map<String,Boolean> legend, Scales scales) {
+    public Options(Map<String,Boolean> legend, Scales scales, Map<String,Map<String,String>> elements) {
         this.legend = legend;
         this.scales = scales;
     }
@@ -25,5 +27,13 @@ public class Options {
 
     public void setScales(Scales scales) {
         this.scales = scales;
+    }
+
+    public Map<String, Map<String, String>> getElements() {
+        return elements;
+    }
+
+    public void setElements(Map<String, Map<String, String>> elements) {
+        this.elements = elements;
     }
 }

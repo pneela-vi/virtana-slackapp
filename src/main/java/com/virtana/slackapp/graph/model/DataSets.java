@@ -7,6 +7,12 @@ public class DataSets {
 
     boolean fill;
     String borderColor;
+    String backgroundColor;
+
+    int pointRadius;
+
+    boolean showLine;
+
 
     public String getLabel() {
         return label;
@@ -38,5 +44,33 @@ public class DataSets {
 
     public void setBorderColor(String borderColor) {
         this.borderColor = borderColor;
+    }
+
+    public boolean isFill() {
+        return fill;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getPointRadius() {
+        return pointRadius;
+    }
+
+    public void setPointRadius(int pointRadius) {
+        this.pointRadius = pointRadius;
+    }
+
+    public boolean isShowLine() {
+        return showLine;
+    }
+
+    public void setShowLine(boolean showLine) {
+        this.showLine = showLine;
     }
 }
