@@ -131,7 +131,7 @@ public class SlackApp {
         JsonElement tradeElement = parser.parse(response.getBody());
         JsonElement element = tradeElement.getAsJsonObject().get("analysis").getAsJsonObject().get("idleResources");
         JsonArray tradeArray = element.getAsJsonArray();
-        String output =   slackUtils.getTableResponseForIdleResources(tradeArray);
+        String output =   slackUtils.getTableResponseForIdleResources(tradeArray, Integer.parseInt(limit));
         SlashCommandResponse cmdResp = new SlashCommandResponse();
         cmdResp.setResponseType("ephemeral");
         cmdResp.setText(output);
@@ -154,7 +154,7 @@ public class SlackApp {
         JsonElement tradeElement = parser.parse(response.getBody());
         JsonElement element = tradeElement.getAsJsonObject().get("analysis").getAsJsonObject().get("rightSizing");
         JsonArray tradeArray = element.getAsJsonArray();
-        String output =   slackUtils.getTableResponseForRightSizing(tradeArray);
+        String output =   slackUtils.getTableResponseForRightSizing(tradeArray, Integer.parseInt(limit));
         SlashCommandResponse cmdResp = new SlashCommandResponse();
         cmdResp.setResponseType("ephemeral");
         cmdResp.setText(output);

@@ -115,7 +115,7 @@ public class SlackUtils {
         return getTableResponse(map);
     }
 
-    public String getTableResponseForIdleResources(JsonArray idle_resources) {
+    public String getTableResponseForIdleResources(JsonArray idle_resources, Integer limit) {
 
         List<String> headers = new ArrayList<>();
         List<List> rows = new ArrayList<>();
@@ -129,7 +129,7 @@ public class SlackUtils {
 
         //	JsonArray users_data = data.getAsJsonArray();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < limit; i++) {
 
             JsonObject user =  idle_resources.get(i).getAsJsonObject();
 
@@ -166,7 +166,7 @@ public class SlackUtils {
         return getTableResponse(map);
     }
 
-    public String getTableResponseForRightSizing(JsonArray rightSizingData) {
+    public String getTableResponseForRightSizing(JsonArray rightSizingData, Integer limit) {
 
         List<String> headers = new ArrayList<>();
         List<List> rows = new ArrayList<>();
@@ -177,8 +177,10 @@ public class SlackUtils {
         headers.add("Cloud");
         headers.add("Current Type");
         headers.add("Proposed Type");
+        headers.add("Current Cost");
+        headers.add("Proposed Cost");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < limit; i++) {
 
             JsonObject sizing =  rightSizingData.get(i).getAsJsonObject();
 
@@ -189,6 +191,8 @@ public class SlackUtils {
 
             rightSizing.add(sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("instanceType").getAsString():"NA");	// current Instance Type
             rightSizing.add(sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("instanceType").getAsString():"NA");	// Proposed Instance Type
+            rightSizing.add(sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("currentType").getAsJsonObject().get("cost").getAsString():"NA");	// current Cost Type
+            rightSizing.add(sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("instanceType")!=null?sizing.get("analysis").getAsJsonObject().get("proposedType").getAsJsonObject().get("cost").getAsString():"NA");	// Proposed Cost Type
             rows.add(rightSizing);
         }
 
