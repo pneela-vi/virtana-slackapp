@@ -8,4 +8,4 @@ Steps to setup Slack App locally
 * Run mvn clean install
 * mvn exec:java -Dexec.mainClass=“com.virtana.slackapp.SlackApp”
 * Run ngrok http 3000
-* Update Request_URL value of slash command with the public url provided by ngrok
+* Update Request_URL value of slash command with the public url provided by ngrok - https://api.slack.com/apps/A04TBE335U6/slash-commands?saved=1
